@@ -5,4 +5,4 @@ program=@IPSECDIR@/charon-nm
 
 [GNOME]
 auth-dialog=@LIBEXECDIR@/nm-strongswan-auth-dialog
-properties=libnm-strongswan-properties
+properties=@PLUGINDIR@/libnm-strongswan-properties
