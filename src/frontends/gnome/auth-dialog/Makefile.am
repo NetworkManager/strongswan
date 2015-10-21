@@ -4,7 +4,7 @@ nm_strongswan_auth_dialog_CPPFLAGS = \
 	$(GTK_CFLAGS) \
 	$(LIBGNOMEUI_CFLAGS) \
 	$(LIBSECRET_CFLAGS) \
-	$(LIBNM_GLIB_CFLAGS) \
+	$(LIBNM_CFLAGS) \
 	-DG_DISABLE_DEPRECATED \
 	-DGNOME_DISABLE_DEPRECATED \
 	-DGNOMELOCALEDIR=\"$(datadir)/locale\" \
@@ -16,5 +16,4 @@ nm_strongswan_auth_dialog_SOURCES =	\
 nm_strongswan_auth_dialog_LDADD = \
 	$(GTK_LIBS) \
 	$(LIBSECRET_LIBS) \
-	$(GNOMEKEYRING_LIBS) \
-	$(LIBNM_GLIB_LIBS)
+	$(LIBNM_LIBS)
