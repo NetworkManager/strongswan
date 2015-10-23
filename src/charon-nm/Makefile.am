@@ -26,8 +26,11 @@ charon_nm_LDADD = \
 dbusservicedir = $(sysconfdir)/dbus-1/system.d
 dbusservice_DATA = nm-strongswan-service.conf
 
-nmvpnservicedir = $(sysconfdir)/NetworkManager/VPN
+nmvpnservicedir = $(prefix)/lib/NetworkManager/VPN
 nmvpnservice_DATA = nm-strongswan-service.name
+
+oldnmvpnservicedir = $(sysconfdir)/NetworkManager/VPN
+oldnmvpnservice_DATA = $(nmvpnservice_DATA)
 
 nm-strongswan-service.name: $(srcdir)/nm-strongswan-service.name.in
 	$(AM_V_GEN) \
