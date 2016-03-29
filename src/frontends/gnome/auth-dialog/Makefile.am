@@ -3,7 +3,7 @@ libexec_PROGRAMS = nm-strongswan-auth-dialog
 nm_strongswan_auth_dialog_CPPFLAGS = \
 	$(GTK_CFLAGS) \
 	$(LIBGNOMEUI_CFLAGS) \
-	$(GNOMEKEYRING_CFLAGS) \
+	$(LIBSECRET_CFLAGS) \
 	$(NETWORK_MANAGER_CFLAGS) \
 	$(NM_UTILS_CFLAGS) \
 	-DG_DISABLE_DEPRECATED \
@@ -16,7 +16,6 @@ nm_strongswan_auth_dialog_SOURCES =	\
 
 nm_strongswan_auth_dialog_LDADD = \
 	$(GTK_LIBS) \
-	$(LIBGNOMEUI_LIBS) \
+	$(LIBSECRET_LIBS) \
 	$(GNOMEKEYRING_LIBS) \
 	$(NM_UTILS_LIBS)
-
