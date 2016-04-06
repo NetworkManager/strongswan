@@ -16,6 +16,6 @@ nm_strongswan_auth_dialog_SOURCES =	\
 
 nm_strongswan_auth_dialog_LDADD = \
 	$(GTK_LIBS) \
+	$(LIBGNOMEUI_LIBS) \
 	$(LIBSECRET_LIBS) \
-	$(GNOMEKEYRING_LIBS) \
 	$(NM_UTILS_LIBS)

@@ -89,7 +89,7 @@ int main (int argc, char *argv[])
 	gchar *name = NULL, *uuid = NULL, *service = NULL, *keyring = NULL, *pass;
 	GOptionContext *context;
 	char *agent, *type;
-	guint32 itemid, minlen = 0;
+	guint32 minlen = 0;
 	GtkWidget *dialog;
 	GOptionEntry entries[] = {
 		{ "reprompt", 'r', 0, G_OPTION_ARG_NONE, &retry, "Reprompt for passwords", NULL},
@@ -192,12 +192,15 @@ too_short_retry:
 				case GNOME_PASSWORD_DIALOG_REMEMBER_NOTHING:
 					break;
 				case GNOME_PASSWORD_DIALOG_REMEMBER_SESSION:
-					keyring = "session";
+					keyring = SECRET_COLLECTION_SESSION;
 					/* FALL */
 				case GNOME_PASSWORD_DIALOG_REMEMBER_FOREVER:
-					if (gnome_keyring_set_network_password_sync(keyring,
-							g_get_user_name(), NULL, name, "password", service, NULL, 0,
-							pass, &itemid) != GNOME_KEYRING_RESULT_OK)
+					if (!secret_password_store_sync(SECRET_SCHEMA_COMPAT_NETWORK,
+								keyring, "", pass, NULL, NULL,
+								"user", g_get_user_name(),
+								"server", name,
+								"protocol", service,
+								NULL))
 					{
 						g_warning ("storing password in keyring failed");
 					}
