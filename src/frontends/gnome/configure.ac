@@ -53,6 +53,13 @@ PKG_CHECK_MODULES(LIBNM, libnm >= 1.1.0)
 LIBNM_CFLAGS="$LIBNM_CFLAGS -DNM_VERSION_MIN_REQUIRED=NM_VERSION_1_2"
 LIBNM_CFLAGS="$LIBNM_CFLAGS -DNM_VERSION_MAX_ALLOWED=NM_VERSION_1_2"
 
+AC_ARG_WITH(
+	[charon],
+	AS_HELP_STRING([--with-charon=file],[path to the strongSwan charon NetworkManager backend"]),
+	[AC_SUBST(charon, "$withval")],
+	[AC_SUBST(charon, "${libexecdir}/ipsec/charon-nm")]
+)
+
 NM_COMPILER_WARNINGS
 
 AC_CONFIG_FILES([
