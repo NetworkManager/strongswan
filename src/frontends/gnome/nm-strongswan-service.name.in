@@ -1,7 +1,7 @@
 [VPN Connection]
 name=strongswan
 service=org.freedesktop.NetworkManager.strongswan
-program=@IPSECDIR@/charon-nm
+program=@CHARON@
 
 [libnm]
 plugin=@PLUGINDIR@/libnm-vpn-plugin-strongswan.so

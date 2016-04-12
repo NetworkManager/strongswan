@@ -22,20 +22,3 @@ charon_nm_LDADD = \
 	$(top_builddir)/src/libstrongswan/libstrongswan.la \
 	$(top_builddir)/src/libcharon/libcharon.la \
 	-lm $(PTHREADLIB) $(DLLIB) ${nm_LIBS}
-
-dbusservicedir = $(sysconfdir)/dbus-1/system.d
-dbusservice_DATA = nm-strongswan-service.conf
-
-nmvpnservicedir = $(prefix)/lib/NetworkManager/VPN
-nmvpnservice_DATA = nm-strongswan-service.name
-
-oldnmvpnservicedir = $(sysconfdir)/NetworkManager/VPN
-oldnmvpnservice_DATA = $(nmvpnservice_DATA)
-
-nm-strongswan-service.name: $(srcdir)/nm-strongswan-service.name.in
-	$(AM_V_GEN) \
-	sed -e 's|[@]LIBEXECDIR[@]|$(libexecdir)|' \
-	    -e 's|[@]PLUGINDIR[@]|$(libdir)/NetworkManager|g' \
-	    -e 's|[@]IPSECDIR[@]|${ipsecdir}|' $< >$@
-
-EXTRA_DIST = nm-strongswan-service.name.in
