@@ -175,6 +175,7 @@ int main (int argc, char *argv[])
 				nma_vpn_password_dialog_set_password(NMA_VPN_PASSWORD_DIALOG(dialog), pass);
 			}
 
+			nma_vpn_password_dialog_set_show_password_secondary (NMA_VPN_PASSWORD_DIALOG(dialog), FALSE);
 			gtk_widget_show(dialog);
 too_short_retry:
 			if (!nma_vpn_password_dialog_run_and_block(NMA_VPN_PASSWORD_DIALOG(dialog)))
