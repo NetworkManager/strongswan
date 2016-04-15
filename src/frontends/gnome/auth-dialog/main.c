@@ -35,17 +35,6 @@
 
 #define NM_DBUS_SERVICE_STRONGSWAN	"org.freedesktop.NetworkManager.strongswan"
 
-static const SecretSchema network_manager_secret_schema = {
-	"org.freedesktop.NetworkManager.Connection",
-	SECRET_SCHEMA_DONT_MATCH_NAME,
-	{
-		{ "connection-uuid", SECRET_SCHEMA_ATTRIBUTE_STRING },
-		{ "setting-name", SECRET_SCHEMA_ATTRIBUTE_STRING },
-		{ "setting-key", SECRET_SCHEMA_ATTRIBUTE_STRING },
-		{ NULL, 0 },
-	}
-};
-
 /**
  * Wait for quit input
  */
@@ -101,10 +90,7 @@ static char* get_connection_type(char *uuid)
 int main (int argc, char *argv[])
 {
 	gboolean retry = FALSE, allow_interaction = FALSE;
-	gchar *name = NULL, *uuid = NULL, *service = NULL, *pass = NULL;
-	GHashTable *secret_attrs;
-	GList *secret_list;
-	SecretValue *secret_value;
+	gchar *name = NULL, *uuid = NULL, *service = NULL, *pass;
 	GOptionContext *context;
 	char *agent, *type;
 	guint32 minlen = 0;
@@ -151,25 +137,11 @@ int main (int argc, char *argv[])
 	if (!strcmp(type, "eap") || !strcmp(type, "key") || !strcmp(type, "psk") ||
 		!strcmp(type, "smartcard"))
 	{
-		secret_attrs = secret_attributes_build(&network_manager_secret_schema,
-						       "connection-uuid", uuid,
-						       "setting-name", NM_SETTING_VPN_SETTING_NAME,
-						       "setting-key", "password",
-						       NULL);
-		secret_list = secret_service_search_sync(NULL, &network_manager_secret_schema, secret_attrs,
-							 SECRET_SEARCH_ALL | SECRET_SEARCH_UNLOCK | SECRET_SEARCH_LOAD_SECRETS,
-							 NULL, NULL);
-
-		if (secret_list && secret_list->data) {
-			secret_value = secret_item_get_secret(SECRET_ITEM(secret_list->data));
-			if (secret_value) {
-				pass = g_strdup(secret_value_get(secret_value, NULL));
-				secret_value_unref(secret_value);
-			}
-		}
-
-		g_list_free_full (secret_list, g_object_unref);
-		g_hash_table_unref (secret_attrs);
+		pass = secret_password_lookup_sync(SECRET_SCHEMA_COMPAT_NETWORK, NULL, NULL,
+						   "user", g_get_user_name(),
+						   "server", name,
+						   "protocol", service,
+						   NULL);
 
 		if ((!pass || retry) && allow_interaction)
 		{
